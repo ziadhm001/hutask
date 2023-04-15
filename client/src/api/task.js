@@ -17,12 +17,12 @@ class TaskApi {
     return axios.put(`tasks/task/${_id}`, data);
   };
 
-  static GetCountByCreator = (data) => {
-    return axios.get(`tasks/countByCreator/`, data);
-  };
-
   static GetCountCompleted = () => {
     return axios.get(`tasks/countCompleted/`);
+  };
+
+  static GetAssignedTasks = (data) => {
+    return axios.get(`tasks/assigned/${data._id}`);
   };
 
   static GetCountOngoing = () => {

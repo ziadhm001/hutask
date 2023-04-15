@@ -29,7 +29,13 @@ export default function Dashboard(props) {
     };
     getRole();
   }, [role, user._id]);
-  const modifiedRoutes = [routes[0], routes[1], routes[2], routes[4]];
+  const modifiedRoutes = [
+    routes[0],
+    routes[1],
+    routes[2],
+    routes[3],
+    routes[5],
+  ];
   const { ...rest } = props;
   // states and functions
   const [fixed] = useState(false);
@@ -130,6 +136,7 @@ export default function Dashboard(props) {
   };
   document.documentElement.dir = "rtl";
   const { onOpen } = useDisclosure();
+  console.log(modifiedRoutes);
   return (
     <RtlProvider>
       <SidebarContext.Provider

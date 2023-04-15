@@ -70,7 +70,6 @@ export function SidebarResponsive(props) {
   // // SIDEBAR
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = React.useRef();
-
   const { routes } = props;
   // let isWindows = navigator.platform.startsWith("Win");
   //  BRAND

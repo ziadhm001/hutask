@@ -67,6 +67,15 @@ const getTaskByCreator = (req, res, next) => {
     .catch((err) => next(err));
 };
 
+const getTaskByAssigned = (req, res, next) => {
+  taskCrud
+    .getByAssigned(req.params.id)
+    .then((data) => {
+      data ? res.send(data) : returnNotFound(req, res);
+    })
+    .catch((err) => next(err));
+};
+
 const registerTask = (req, res, next) => {
   const task = req.body;
   task.assigned = [];
@@ -106,6 +115,7 @@ export {
   getTaskById,
   getTaskCount,
   getTaskCountByCreator,
+  getTaskByAssigned,
   getCompletedCount,
   getOngoingCount,
   getTaskByCreator,

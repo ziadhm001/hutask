@@ -160,16 +160,14 @@ export default function UserReports() {
       </SimpleGrid>
       <SimpleGrid columns={{ base: 1, md: 1, xl: 2 }} gap='40px' mb='20px'>
         <DailyTraffic taskcount={taskCount}/>
-        <Card p="20px" align="center" direction="column" w="100%">
+    <Card p="15px" direction="column" w="100%">
       <Flex
         px={{ base: "0px", "2xl": "10px" }}
-        justifyContent="space-between"
-        alignItems="center"
         w="100%"
         mb="8px"
       >
         <Text color={textColor} fontSize="md" fontWeight="600" mt="4px">
-          نسبة المهام المنفذة
+          حالة المهام
         </Text>
       </Flex>
 
@@ -186,16 +184,14 @@ export default function UserReports() {
         flexDirection="row"
         boxShadow={cardShadow}
         w="100%"
-        p="15px"
-        px="20px"
+        p="25px"
         mt="15px"
-        mx="auto"
       >
         <Flex direction="column" py="5px">
           <Flex align="center">
             <Box h="8px" w="8px" bg="red.500" borderRadius="50%" me="4px" />
             <Text
-              fontSize="xs"
+              fontSize="small"
               color="secondaryGray.600"
               fontWeight="700"
               mb="5px"
@@ -211,12 +207,12 @@ export default function UserReports() {
             %
           </Text>
         </Flex>
-        <VSeparator mx={{ base: "60px", xl: "60px", "2xl": "60px" }} />
+        <VSeparator mx={{ base: "42px", xl: "42px", "2xl": "42px" }} />
         <Flex direction="column" py="5px">
           <Flex align="center">
             <Box h="8px" w="8px" bg="yellow.500" borderRadius="50%" me="4px" />
             <Text
-              fontSize="xs"
+              fontSize="small"
               color="secondaryGray.600"
               fontWeight="700"
               mb="5px"
@@ -228,12 +224,12 @@ export default function UserReports() {
             {((ongoingCount / taskCount) * 100).toFixed(2)}%
           </Text>
         </Flex>
-        <VSeparator mx={{ base: "60px", xl: "60px", "2xl": "60px" }} />
+        <VSeparator mx={{ base: "42px", xl: "42px", "2xl": "42px" }} />
         <Flex direction="column" py="5px" me="10px">
           <Flex align="center">
             <Box h="8px" w="8px" bg="green.500" borderRadius="50%" me="4px" />
             <Text
-              fontSize="xs"
+              fontSize="small"
               color="secondaryGray.600"
               fontWeight="700"
               mb="5px"

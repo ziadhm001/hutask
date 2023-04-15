@@ -11,6 +11,7 @@ import {
   updateTask,
   deleteTask,
   registerTask,
+  getTaskByAssigned,
 } from "../controllers/taskController.js";
 import { requireAuth } from "../middlewares/requireAuth.js";
 
@@ -27,6 +28,8 @@ router.get("/countByCreator", getTaskCountByCreator);
 router.get("/countCompleted", getCompletedCount);
 
 router.get("/countOngoing", getOngoingCount);
+
+router.get("/assigned/:id", getTaskByAssigned);
 
 router.get("/task/:id", validateDbId, getTaskById);
 

@@ -11,7 +11,7 @@ import { Redirect, Route, Switch } from "react-router-dom";
 import routes from "routes.js";
 const modifiedRoutes = [routes[0], routes[1], routes[2], routes[3], routes[5]];
 // Custom Chakra theme
-export default function Dashboard(props) {
+export default function Home(props) {
   const { ...rest } = props;
   // states and functions
   const [fixed] = useState(false);
@@ -35,7 +35,9 @@ export default function Dashboard(props) {
         }
       } else {
         if (
-          window.location.href.indexOf(routes[i].layout + routes[i].path) !== -1
+          window.location.href.indexOf(routes[i].layout + routes[i].path) !==
+            -1 ||
+          window.location.href.indexOf(routes[i].layout) !== -1
         ) {
           return routes[i].name;
         }
@@ -91,7 +93,7 @@ export default function Dashboard(props) {
   };
   const getRoutes = (routes) => {
     return routes.map((prop, key) => {
-      if (prop.layout === "/user") {
+      if (prop.layout === "/home") {
         return (
           <Route
             path={prop.layout + prop.path}
@@ -111,6 +113,7 @@ export default function Dashboard(props) {
     });
   };
   document.documentElement.dir = "rtl";
+
   const { onOpen } = useDisclosure();
   return (
     <RtlProvider>
@@ -139,7 +142,7 @@ export default function Dashboard(props) {
             <Box>
               <Navbar
                 onOpen={onOpen}
-                logoText={"Horizon UI Dashboard"}
+                logoText={"Helwan University"}
                 brandText={getActiveRoute(routes)}
                 secondary={getActiveNavbar(routes)}
                 message={getActiveNavbarText(routes)}
@@ -159,7 +162,7 @@ export default function Dashboard(props) {
             >
               <Switch>
                 {getRoutes(routes)}
-                <Redirect from="/" to="/user/profile" />
+                <Redirect from="/" to="/home" />
               </Switch>
             </Box>
           ) : null}

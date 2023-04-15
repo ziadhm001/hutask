@@ -24,7 +24,13 @@ import { IoMdMoon, IoMdSunny } from "react-icons/io";
 import routes from "routes.js";
 import { useAuthContext } from "hooks/useAuthContext";
 export default function HeaderLinks(props) {
-  const modifiedRoutes = [routes[0], routes[1], routes[2], routes[4]];
+  const modifiedRoutes = [
+    routes[0],
+    routes[1],
+    routes[2],
+    routes[3],
+    routes[5],
+  ];
   const history = useHistory();
   const handleClick = () => {
     history.push("/user/profile");
@@ -196,16 +202,18 @@ export default function HeaderLinks(props) {
             >
               <Text fontSize="sm">الصفحة الشخصية</Text>
             </MenuItem>
-            <MenuItem
-              _hover={{ bg: "none" }}
-              _focus={{ bg: "none" }}
-              color="red.400"
-              borderRadius="8px"
-              px="14px"
-              onClick={handleLogout}
-            >
-              <Text fontSize="sm">تسجيل خروج</Text>
-            </MenuItem>
+            {user && (
+              <MenuItem
+                _hover={{ bg: "none" }}
+                _focus={{ bg: "none" }}
+                color="red.400"
+                borderRadius="8px"
+                px="14px"
+                onClick={handleLogout}
+              >
+                <Text fontSize="sm">تسجيل خروج</Text>
+              </MenuItem>
+            )}
           </Flex>
         </MenuList>
       </Menu>

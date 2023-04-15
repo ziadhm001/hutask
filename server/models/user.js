@@ -148,4 +148,13 @@ userSchema.statics.unAssignTask = async function (task_id, user_id) {
     );
   });
 };
+
+userSchema.statics.getCreated = async function () {
+  const created = this.find(
+    { $or: [{ role: "user" }, { role: "admin" }] },
+    { name: 1, created: 1 }
+  );
+  return created;
+};
+
 export default mongoose.model("User", userSchema);

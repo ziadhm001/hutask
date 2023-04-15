@@ -16,7 +16,6 @@ export default function Settings(props) {
     }
     const getTask = async () => {
       const tasks = await TaskApi.GetTask({_id: path[3]});
-      console.log(tasks);
       setTasks([tasks.data])
     }
     if(path.length === 4)

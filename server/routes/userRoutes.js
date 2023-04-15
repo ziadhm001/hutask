@@ -7,6 +7,7 @@ import {
   unAssignTask,
   getUnassignedCount,
   getUserRole,
+  getCreated,
 } from "../controllers/userController.js";
 
 import { requireAuth } from "../middlewares/requireAuth.js";
@@ -24,6 +25,8 @@ router.post("/assign", assignTask);
 router.post("/unassign", unAssignTask);
 
 router.get("/role/:role", getUsersByRole);
+
+router.get("/countCreatedTasks", getCreated);
 
 router.get("/user/role/:id", getUserRole);
 

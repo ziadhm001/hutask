@@ -8,6 +8,10 @@ class UserApi {
     return axios.get(`users/user/role/${data}`);
   };
 
+  static GetCreatedCount = () => {
+    return axios.get(`users/countCreatedTasks/`);
+  };
+
   static GetUnassignedCount = () => {
     return axios.get(`users/countUnassigned/`);
   };

@@ -12,15 +12,15 @@ export const AdminRoute = ({ ...rest }) => {
   const history = useHistory();
   const [role, setRole] = useState(null);
   const authAdmin = async () => {
+    if (!user || !user.token || user.token === "") {
+      return history.push("/auth/sign-in");
+    }
     let response = await UserApi.GetRole(user._id);
     setRole(response.data.users.role);
     // user not signed in
-    if (!user || !user.token || user.token === "") {
-      return <Redirect to="/auth/signin" />;
-    }
 
     if (role && role !== "admin") {
-      return history.push("/user/profile");
+      return history.push("/user/home");
     }
 
     return;

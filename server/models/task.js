@@ -41,11 +41,6 @@ taskSchema.statics.count = async function () {
   return count;
 };
 
-taskSchema.statics.countByCreator = async function (role) {
-  const count = this.countDocuments({ role });
-  return count;
-};
-
 taskSchema.statics.countCompleted = async function () {
   const count = this.countDocuments({ status: "تم الانتهاء" });
   return count;

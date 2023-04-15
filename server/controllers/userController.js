@@ -43,6 +43,15 @@ const getUsersByRole = async (req, res, next) => {
   }
 };
 
+const getCreated = async (req, res, next) => {
+  try {
+    const users = await User.getCreated();
+    res.status(200).json({ users });
+  } catch (err) {
+    next(err);
+  }
+};
+
 const getUserRole = async (req, res, next) => {
   try {
     const id = { _id: req.params.id };
@@ -81,6 +90,7 @@ export {
   validateUser,
   getUsersByRole,
   getUserRole,
+  getCreated,
   getUnassignedCount,
   assignTask,
   unAssignTask,

@@ -57,7 +57,7 @@ export default function UserReports() {
     setPieChartData([
       (completedCount / taskCount),
       ongoingCount / taskCount,
-      (completedCount + ongoingCount) / taskCount,
+      (taskCount - completedCount - ongoingCount) / taskCount,
     ]);
   }, [completedCount, ongoingCount, taskCount]);
 

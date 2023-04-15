@@ -13,7 +13,6 @@ class TaskApi {
   };
 
   static UpdateTask = (_id, data) => {
-    console.log(`data:${data},id:${_id}`);
     return axios.put(`tasks/task/${_id}`, data);
   };
 

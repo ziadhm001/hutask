@@ -136,7 +136,6 @@ export default function Dashboard(props) {
   };
   document.documentElement.dir = "rtl";
   const { onOpen } = useDisclosure();
-  console.log(modifiedRoutes);
   return (
     <RtlProvider>
       <SidebarContext.Provider

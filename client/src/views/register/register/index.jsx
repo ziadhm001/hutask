@@ -13,7 +13,8 @@ import {
   InputRightElement,
   Text,
   useColorModeValue,
-  IconButton
+  IconButton,
+  Input
 } from "@chakra-ui/react";
 // Custom components
 import React, { useState } from "react";
@@ -29,6 +30,7 @@ function SignIn() {
   const [name, setName] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [email, setEmail] = useState("");
   const [department, setDepartment] = useState("");
   const [role, setRole] = useState("");
@@ -56,6 +58,9 @@ function SignIn() {
     }
     if (password === "") {
       return setError("من فضلك ادخل كلمة المرور");
+    }
+    if (password !== confirmPassword) {
+      return setError("من فضلك ادخل كلمة مرور متطابقة");
     }
     if (email === "") {
       return setError("من فضلك ادخل البريد الالكتروني");
@@ -156,6 +161,141 @@ function SignIn() {
               {error}
             </h4>
             <FormControl >
+            <FormLabel
+                  justifyContent='left'
+                  display='flex'
+                  ms='4px'
+                  fontSize='sm'
+                  fontWeight='500'
+                  color={textColor}
+                  mb='8px'>
+                اسم الموظف
+                <Text color={brandStars}>*</Text>
+              </FormLabel>
+              <Input
+                textAlign='left'
+                isRequired={true}
+                variant='auth'
+                fontSize='sm'
+                color='black'
+                type="text"
+                ms={{ base: "0px", md: "0px" }}
+                placeholder='اسم الموظف'
+                mb='24px'
+                fontWeight='500'
+                size='lg'
+                onChange={(event) => {
+                  setName(event.target.value);
+                  setError(undefined);
+                }} />
+                            <FormLabel
+                  justifyContent='left'
+                  display='flex'
+                  ms='4px'
+                  fontSize='sm'
+                  fontWeight='500'
+                  color={textColor}
+                  mb='8px'>
+                اسم المستخدم   
+                <Text color={brandStars}>*</Text>
+              </FormLabel>
+              <Input
+                textAlign='left'
+                isRequired={true}
+                variant='auth'
+                fontSize='sm'
+                color='black'
+                type="text"
+                ms={{ base: "0px", md: "0px" }}
+                placeholder='اسم المستخدم'
+                mb='24px'
+                fontWeight='500'
+                size='lg'
+                onChange={(event) => {
+                  setUsername(event.target.value);
+                  setError(undefined);
+                }} />
+                                            <FormLabel
+                  justifyContent='left'
+                  display='flex'
+                  ms='4px'
+                  fontSize='sm'
+                  fontWeight='500'
+                  color={textColor}
+                  mb='8px'>
+                    البريد الالكتروني
+                <Text color={brandStars}>*</Text>
+              </FormLabel>
+              <Input
+                textAlign='left'
+                isRequired={true}
+                variant='auth'
+                fontSize='sm'
+                color='black'
+                type="text"
+                ms={{ base: "0px", md: "0px" }}
+                placeholder='البريد الالكتروني'
+                mb='24px'
+                fontWeight='500'
+                size='lg'
+                onChange={(event) => {
+                  setEmail(event.target.value);
+                  setError(undefined);
+                }} />
+                <FormLabel
+                  justifyContent='left'
+                  display='flex'
+                  ms='4px'
+                  fontSize='sm'
+                  fontWeight='500'
+                  color={textColor}
+                  mb='8px'>
+                  كلمة المرور
+                <Text color={brandStars}>*</Text>
+              </FormLabel>
+              <Input
+                textAlign='left'
+                isRequired={true}
+                variant='auth'
+                fontSize='sm'
+                color='black'
+                type="password"
+                ms={{ base: "0px", md: "0px" }}
+                placeholder='كلمة المرور'
+                mb='24px'
+                fontWeight='500'
+                size='lg'
+                onChange={(event) => {
+                  setPassword(event.target.value);
+                  setError(undefined);
+                }} />
+                                <FormLabel
+                  justifyContent='left'
+                  display='flex'
+                  ms='4px'
+                  fontSize='sm'
+                  fontWeight='500'
+                  color={textColor}
+                  mb='8px'>
+                    تأكيد كلمة المرور
+                <Text color={brandStars}>*</Text>
+              </FormLabel>
+              <Input
+                textAlign='left'
+                isRequired={true}
+                variant='auth'
+                fontSize='sm'
+                color='black'
+                type="password"
+                ms={{ base: "0px", md: "0px" }}
+                placeholder='تأكيد كلمة المرور'
+                mb='24px'
+                fontWeight='500'
+                size='lg'
+                onChange={(event) => {
+                  setConfirmPassword(event.target.value);
+                  setError(undefined);
+                }} />
               <FormLabel 
                 justifyContent='left'
                 display='flex'
@@ -187,43 +327,36 @@ function SignIn() {
                 <option value='الشبكات'>الشبكات</option>
                 <option value='الدعم الفني'>الدعم الفني</option>
                 <option value='الصيانة'>الصيانة</option>
-                <option value='أخرى'>أخرى</option>
               </Select>
-                <FormLabel
-                  justifyContent='left'
-                  display='flex'
-                  ms='4px'
-                  fontSize='sm'
-                  fontWeight='500'
-                  color={textColor}
-                  mb='8px'>
-                اسم الموظف
-                <Text color={brandStars}>*</Text>
+              <FormLabel 
+                justifyContent='left'
+                display='flex'
+                ms='4px'
+                fontSize='sm'
+                fontWeight='500'
+                color={textColor}
+                mb='8px'>
+                اختر القسم<Text color={brandStars}>*</Text>
               </FormLabel>
-              <Textarea
+              <Select
                 textAlign='left'
                 isRequired={true}
                 variant='auth'
                 fontSize='sm'
-                color='black'
                 ms={{ base: "0px", md: "0px" }}
-                placeholder='اسم الموظف'
+                placeholder='اختر القسم'
                 mb='24px'
                 fontWeight='500'
                 size='lg'
                 onChange={(event) => {
-                  setReason(event.target.value);
+                  setRole(event.target.value);
                   setError(undefined);
                 }}
-              />
-                <InputRightElement display='flex' alignItems='center' mt='4px'>
-                  <Icon
-                    color={textColorSecondary}
-                    _hover={{ cursor: "pointer" }}
-                    as={show ? RiEyeCloseLine : MdOutlineRemoveRedEye}
-                    onClick={handleClick}
-                  />
-                </InputRightElement>
+              >
+                <option value='admin'>مدير</option>
+                <option value='employee'>موظف</option>
+
+              </Select>
               <Button
                 fontSize='sm'
                 variant='brand'

@@ -56,7 +56,7 @@ export default function HeaderLinks(props) {
     localStorage.removeItem("user");
     // dispatch logout action
     dispatch({ type: "LOGOUT" });
-    history.push("/auth/sign-in");
+    history.go("/home");
   };
   const borderButton = useColorModeValue("secondaryGray.500", "whiteAlpha.200");
   return (

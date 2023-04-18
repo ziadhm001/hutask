@@ -23,16 +23,15 @@ import Card from "./Card";
 export default function gridListWith() {
   return (
     <Box p={4}>
-      <Container maxW={"5xl"} mt={12}>
-        <Flex flexWrap="wrap" gridGap={6} justify="center">
-          <SimpleGrid columns={{ base: 1, md: 1, xl: 2 }} gap="40px" mb="20px">
+      <Container maxW={"5xl"}>
+        <Flex flexWrap="wrap" gridGap={2} justify="center">
+          <SimpleGrid columns={{ base: 1, md: 1, xl: 3 }} gap="20px" mb="20px">
             <Card
               heading={"البوابة الالكترونية"}
               icon={<Icon as={FcMultipleDevices} w={10} h={10} />}
               description={
-                "نبني جميع مواقعنا بأفضل برنامج إدارة محتوى ، وهو ما يسمح بإدارة جميع المحتويات الموجودة مسؤول عن بوابة الجامعة الالكترونية"
+                "نبني جميع مواقعنا بأفضل برنامج إدارة محتوى وهو ما يسمح بإدارة جميع المحتويات الموجودة مسؤول عن بوابة الجامعة الالكترونية"
               }
-              href={"#"}
             />
             <Card
               heading={"قسم الشبكة"}
@@ -60,7 +59,7 @@ export default function gridListWith() {
               heading={"قسم دعم الكنترول"}
               icon={<Icon as={FcAbout} w={10} h={10} />}
               description={
-                "·تقديم الدعم الفنى لبرنامج الكنترول وبرنامج التشعيب ومجال الايميلات الجامعية للسادة اعضاء هيئة التدريس"
+                "تقديم الدعم الفنى لبرنامج الكنترول وبرنامج التشعيب ومجال الايميلات الجامعية للسادة اعضاء هيئة التدريس"
               }
               href={"#"}
             />

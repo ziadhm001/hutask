@@ -9,20 +9,21 @@ import {
 } from "@chakra-ui/react";
 
 function Card(props) {
-  const { heading, description, icon, href } = props;
+  const { heading, description, icon } = props;
   return (
     <Box
-      maxW={{ base: "full", md: "500px" }}
+      maxW={{ base: "full", md: "300px" }}
       w={"full"}
       borderWidth="1px"
       borderRadius="lg"
       overflow="hidden"
-      p={5}
+      p={4}
+      maxH={{ base: "full", md: "200px" }}
     >
-      <Stack align={"start"} spacing={2}>
+      <Stack align={"start"} spacing={1}>
         <Flex
-          w={24}
-          h={24}
+          w={8}
+          h={8}
           align={"center"}
           justify={"center"}
           color={"white"}
@@ -31,13 +32,11 @@ function Card(props) {
         >
           {icon}
         </Flex>
-        <Box mt={2}>
-          <Heading size="xl" marginBottom="20px">
+        <Box>
+          <Heading fontSize="larger" marginBottom="5px">
             {heading}
           </Heading>
-          <Text mt={1} fontSize={"large"}>
-            {description}.
-          </Text>
+          <Text fontSize={"16px"}>{description}.</Text>
         </Box>
       </Stack>
     </Box>

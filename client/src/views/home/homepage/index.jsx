@@ -4,12 +4,12 @@ import { Stack, Heading, Text,Container,Box,Button, useColorModeValue, useBreakp
 export default function Home() {
   const history = useHistory();
   return(
-    <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
-      <Stack spacing={4} as={Container} maxW={"3xl"} textAlign={"center"}>
-        <Heading fontSize={{ base: "2xl", sm: "5xl" }} fontWeight={"bold"}>
+    <Box pt={{ base: "60px", md: "30px", xl: "0px" }}>
+      <Stack spacing={1} as={Container} maxW={"5xl"} textAlign={"center"}>
+        <Heading fontSize={{ base: "2xl", sm: "2xl" }} fontWeight={"bold"}>
           منظومة تقديم الطلبات والبلاغات   
         </Heading>
-        <Heading fontSize={{ base: '3xl', md: '4xl', lg: '5xl' }}>
+        <Heading fontSize={{ base: '3xl', md: '3xl', lg: '5xl' }}>
             <Text
               as={'span'}
               position={'relative'}
@@ -20,14 +20,13 @@ export default function Home() {
                 position: 'absolute',
                 bottom: 1,
                 left: 0,
-                bg: 'blue.400',
                 zIndex: -1,
               }}>
               لمركز الحساب العلمي
             </Text>
-            <br />{' '}
+            <br />
           </Heading>
-        <Text color={useColorModeValue("gray.700","gray.100")} fontSize="2xl">
+        <Text color={useColorModeValue("gray.700","gray.100")} fontSize="larger">
         يمكنك من خلال هذا النظام الالكتروني أن تقوم بطلب خدمة من خدمات مركز الحساب العلمي او تقديم بلاغ ومتابعته عن أي عطل خاص بأقسام المركز
         </Text>
       </Stack>
@@ -38,7 +37,6 @@ export default function Home() {
                 fontWeight='500'
                 w='100%'
                 h='50'
-                mb='24px'
                 onClick={() => history.push('/auth/register')}
               >
                 تسجيل شكوى

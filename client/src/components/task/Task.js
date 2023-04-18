@@ -40,13 +40,15 @@ export default function Task(props) {
   };
   let employees = props.employees;
   let [employeeCompare, setEmployeeCompare] = useState("");
+  let [status, setStatus] = useState(props.status);
 
   useEffect(() => {
     setEmployeeCompare(employees);
   }, [employees, props.employees]);
 
   const updateProgress = async (progress) => {
-    await TaskApi.UpdateTask(props._id, { progress });
+    let response = await TaskApi.UpdateTask(props._id, { progress });
+    setStatus(response.data.status);
   };
 
   const changeEmployeeAssignState = async (e) => {
@@ -123,11 +125,11 @@ export default function Task(props) {
                     justifyContent="center"
                     alignItems="center"
                     bg={
-                      props.status === "جاري التنفيذ"
+                      status === "جاري التنفيذ"
                         ? "yellow.500"
-                        : props.status === "تم الانتهاء"
+                        : status === "تم الانتهاء"
                         ? "green.500"
-                        : props.status === "لم تبدأ بعد"
+                        : status === "لم تبدأ بعد"
                         ? "red.500"
                         : null
                     }
@@ -144,7 +146,7 @@ export default function Task(props) {
                       color="white"
                       stroke="black"
                     >
-                      {props.status}
+                      {status}
                     </Text>
                   </Flex>
 
@@ -160,7 +162,7 @@ export default function Task(props) {
                       نسبة انجاز المهمة
                     </Text>
                     <Slider
-                      isReadOnly={props.status === "تم الانتهاء"}
+                      isReadOnly={status === "تم الانتهاء"}
                       accessKey=""
                       onChangeEnd={updateProgress}
                       marginLeft="30px"
@@ -321,7 +323,7 @@ export default function Task(props) {
                           {employeeCompare &&
                             employeeCompare.map((employee, index) => (
                               <Checkbox
-                                isReadOnly={props.status === "تم الانتهاء"}
+                                isReadOnly={status === "تم الانتهاء"}
                                 color={textColorPrimary}
                                 fontWeight="bold"
                                 fontSize="smaller"

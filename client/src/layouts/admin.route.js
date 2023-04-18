@@ -13,16 +13,21 @@ export const AdminRoute = ({ ...rest }) => {
   const [role, setRole] = useState(null);
   const authAdmin = async () => {
     if (!user || !user.token || user.token === "") {
-      return history.push("/auth/sign-in");
+      return history.go("/auth/sign-in");
     }
-    let response = await UserApi.GetRole(user._id);
+    let response = await UserApi.GetRole(user._id).catch((err) => {
+      if (err.request.status === 401) {
+        history.go("/auth/sign-in");
+        localStorage.removeItem("user");
+      }
+    });
     setRole(response.data.users.role);
     // user not signed in
 
     if (role && role !== "admin") {
       return history.push("/user/home");
-    }
-
+    } else if (response.data.error === "Request is not authorized")
+      return history.push("/home");
     return;
   };
   authAdmin();

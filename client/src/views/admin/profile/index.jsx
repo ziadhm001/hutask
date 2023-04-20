@@ -28,34 +28,59 @@ export default function Overview() {
 
   const [role, setRole] = useState(null);
   useEffect(() => {
+    let controller = new AbortController();
     const authStaff = async () => {
+      try{
       let response = await UserApi.GetRole(user._id);
       setRole(response.data.users.role);
+      controller = null;
+      }
+      catch(error)
+      {
+        console.log(error);
+      }
     };
     authStaff();
+    return () => controller?.abort();
   },[user._id])
   
   useEffect(() => {
+    let controller = new AbortController();
     const getTasks = async () => {
+      try{
       let response = await TaskApi.GetByCreator({
         _id: user._id
       });
         await response.data.map((task) => task.creator = task.creator.name);
         setTableDataColumns(response.data);
+        controller = null;
+    }
+    catch(error){
+      console.log(error);
+    }
       
     }
     getTasks();
+    return () => controller?.abort();
   },[user._id])
 
   useEffect(() => {
+    let controller = new AbortController();
     const getTasks = async () => {
+      try{
       let response = await TaskApi.GetAssignedTasks({
         _id: user._id
       });
         await response.data.map((task) => task.creator = task.creator.name);
         setTable2DataColumns(response.data);
+        controller = null;
+    }
+    catch(error){
+      console.log(error);
+    }
     }
     getTasks();
+    return () => controller?.abort();
   },[user._id])
   
   return (

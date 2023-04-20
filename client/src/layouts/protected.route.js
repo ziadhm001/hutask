@@ -10,7 +10,7 @@ export const ProtectedRoute = ({ ...rest }) => {
   let user = JSON.parse(localStorage.getItem("user"));
   // user not signed in
   if (!user || !user.token || user.token === "") {
-    return <Redirect to="/home" />;
+    return <Redirect to="/auth/sign-in" />;
   }
   const auth = async () => {
     await UserApi.GetRole(user._id).catch((err) => {

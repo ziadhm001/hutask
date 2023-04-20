@@ -34,7 +34,9 @@ export default function Dashboard(props) {
     routes[1],
     routes[2],
     routes[3],
+    routes[4],
     routes[5],
+    routes[6],
   ];
   const { ...rest } = props;
   // states and functions
@@ -164,8 +166,8 @@ export default function Dashboard(props) {
               <Navbar
                 onOpen={onOpen}
                 logoText={"HelwanUniversity"}
-                brandText={getActiveRoute(routes)}
-                secondary={getActiveNavbar(routes)}
+                brandText={getActiveRoute(modifiedRoutes)}
+                secondary={getActiveNavbar(modifiedRoutes)}
                 message={getActiveNavbarText(routes)}
                 fixed={fixed}
                 {...rest}
@@ -176,7 +178,7 @@ export default function Dashboard(props) {
           {getRoute() ? (
             <Box
               mx="auto"
-              p={{ base: "20px", md: "30px" }}
+              p={{ base: "20px", md: "20px" }}
               pe="20px"
               minH="100vh"
               pt="50px"
@@ -187,9 +189,6 @@ export default function Dashboard(props) {
               </Switch>
             </Box>
           ) : null}
-          <Box>
-            <Footer />
-          </Box>
         </Box>
       </SidebarContext.Provider>
     </RtlProvider>

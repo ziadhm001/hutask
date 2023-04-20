@@ -28,6 +28,22 @@ class TaskApi {
     return axios.get(`tasks/countOngoing/`);
   };
 
+  static GetManager = (data) => {
+    return axios.post(`tasks/manager`, data);
+  };
+
+  static GetMCountOngoing = (data) => {
+    return axios.post(`tasks/mcountOngoing/`, data);
+  };
+
+  static GetMCount = (data) => {
+    return axios.post(`tasks/mcount/`, data);
+  };
+
+  static GetMCountCompleted = (data) => {
+    return axios.post(`tasks/mcountCompleted/`, data);
+  };
+
   static GetByCreator = (data) => {
     return axios.get(`tasks/creator/${data._id}`, data);
   };

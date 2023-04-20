@@ -39,12 +39,8 @@ export default function Task(props) {
     year: "numeric",
   };
   let employees = props.employees;
-  let [employeeCompare, setEmployeeCompare] = useState("");
+  let assignedEmployees = props.assigned;
   let [status, setStatus] = useState(props.status);
-
-  useEffect(() => {
-    setEmployeeCompare(employees);
-  }, [employees, props.employees]);
 
   const updateProgress = async (progress) => {
     let response = await TaskApi.UpdateTask(props._id, { progress });
@@ -56,19 +52,12 @@ export default function Task(props) {
     const task_id = e.target.value.split("|")[1];
     if (e.target.checked) {
       await UserApi.AssignTask({ task_id, user_id });
-      employees = props.employees.map((employee) => {
-        if (employee._id === user_id) employee.assigned.push(task_id);
-        return employee;
-      });
+      assignedEmployees = props.assigned;
     } else {
       await UserApi.UnAssignTask({ task_id, user_id });
-      employees = props.employees.map((employee) => {
-        if (employee._id === user_id)
-          employee.assigned.splice(employee.assigned.indexOf(task_id));
-        return employee;
-      });
+      assignedEmployees = props.assigned;
     }
-    setEmployeeCompare(employees);
+    props.setChange(e.timeestamp);
   };
 
   const formColor = useColorModeValue(
@@ -320,8 +309,8 @@ export default function Task(props) {
                             <StackDivider borderColor={textColorPrimary} />
                           }
                         >
-                          {employeeCompare &&
-                            employeeCompare.map((employee, index) => (
+                          {employees &&
+                            employees.map((employee, index) => (
                               <Checkbox
                                 isReadOnly={status === "تم الانتهاء"}
                                 color={textColorPrimary}
@@ -329,9 +318,10 @@ export default function Task(props) {
                                 fontSize="smaller"
                                 colorScheme="green"
                                 isChecked={
-                                  employee.assigned.length !== 0 &&
-                                  employee.assigned.filter(
-                                    (task_id) => task_id === props._id
+                                  props.assigned.length !== 0 &&
+                                  props.assigned.filter(
+                                    (employee_id) =>
+                                      employee_id === employee._id
                                   ).length !== 0
                                 }
                                 key={index}

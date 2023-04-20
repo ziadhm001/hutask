@@ -41,13 +41,34 @@ taskSchema.statics.count = async function () {
   return count;
 };
 
+taskSchema.statics.Mcount = async function (data) {
+  const count = this.countDocuments(data);
+  return count;
+};
+
 taskSchema.statics.countCompleted = async function () {
   const count = this.countDocuments({ status: "تم الانتهاء" });
   return count;
 };
 
+taskSchema.statics.McountCompleted = async function (data) {
+  const count = this.countDocuments({
+    status: "تم الانتهاء",
+    department: data.department,
+  });
+  return count;
+};
+
 taskSchema.statics.countOngoing = async function () {
   const count = this.countDocuments({ status: "جاري التنفيذ" });
+  return count;
+};
+
+taskSchema.statics.McountOngoing = async function (data) {
+  const count = this.countDocuments({
+    status: "جاري التنفيذ",
+    department: data.department,
+  });
   return count;
 };
 

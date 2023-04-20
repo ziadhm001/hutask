@@ -9,34 +9,61 @@ export default function Settings(props) {
   const [tasks, setTasks] = useState(null);
   const [employees, setEmployees] = useState(null);
   const path = window.location.pathname.split('/')
+  const [change, setChange] = useState('')
   useEffect(() => {
+    let controller = new AbortController();
     const getTasks = async () => {
+      try
+      {
       const tasks = await TaskApi.Get()
       setTasks(tasks.data)
+      controller = null;
+      }
+      catch(error){
+        console.log(error)
+      }
     }
     const getTask = async () => {
+      try
+      {
       const tasks = await TaskApi.GetTask({_id: path[3]});
       setTasks([tasks.data])
+      controller = null;
+      }
+      catch(error)
+      {
+        console.log(error)
+      }
     }
     if(path.length === 4)
       getTask();
     else
       getTasks();
-  },[])
+
+    return () => controller?.abort();
+  },[path,change])
 
   useEffect(() => {
+    let controller = new AbortController();
     const getEmployees = async () => {
-      const employees = await UserApi.GetByRole("employee")
-      setEmployees(employees.data.users)
+      try{
+      const employees = await UserApi.GetByRole("employee");
+      setEmployees(employees.data.users);
+      controller = null;
+      }
+      catch(error){
+        console.log(error)
+      }
     }
     getEmployees();
+    return () => controller?.abort();
 
   },[])
   return (
     <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
       <SimpleGrid columns={{base: 1, md: 1, xl: tasks ? tasks.length === 1 ? 1 : 2 : 1}} gap='40px' mb='20px'>
         {tasks ? tasks.map((task,index) => 
-          <Task key={index} name={task.creator.name} status={task.status} date={task.date} department={task.department} service={task.service} element ={task.element} progress={task.progress} reason={task.reason} _id={task._id} employees={employees}/>
+          <Task key={index} name={task.creator.name} status={task.status} date={task.date} department={task.department} service={task.service} element ={task.element} progress={task.progress} reason={task.reason} _id={task._id} employees={employees} assigned={task.assigned} setChange={setChange}/>
         ): <Loading/> }
       </SimpleGrid>
     </Box>

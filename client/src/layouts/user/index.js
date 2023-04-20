@@ -9,7 +9,18 @@ import { SidebarContext } from "contexts/SidebarContext";
 import React, { useState } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import routes from "routes.js";
-const modifiedRoutes = [routes[0], routes[1], routes[2], routes[3], routes[5]];
+const modifiedRoutes = [
+  routes[7],
+  routes[8],
+  routes[9],
+  routes[0],
+  routes[1],
+  routes[2],
+  routes[3],
+  routes[4],
+  routes[5],
+  routes[6],
+];
 // Custom Chakra theme
 export default function Dashboard(props) {
   const { ...rest } = props;
@@ -128,8 +139,8 @@ export default function Dashboard(props) {
           overflow="auto"
           position="relative"
           maxHeight="100%"
-          w={{ base: "100%", xl: "calc( 100% - 290px )" }}
-          maxWidth={{ base: "100%", xl: "calc( 100% - 290px )" }}
+          w={{ base: "50%", xl: "calc( 100% - 200px )" }}
+          maxWidth={{ base: "100%", xl: "calc( 100% - 200px )" }}
           transition="all 0.33s cubic-bezier(0.685, 0.0473, 0.346, 1)"
           transitionDuration=".2s, .2s, .35s"
           transitionProperty="top, bottom, width"
@@ -163,9 +174,6 @@ export default function Dashboard(props) {
               </Switch>
             </Box>
           ) : null}
-          <Box>
-            <Footer />
-          </Box>
         </Box>
       </SidebarContext.Provider>
     </RtlProvider>

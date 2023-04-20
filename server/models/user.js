@@ -27,6 +27,10 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
+  department: {
+    type: String,
+    required: true,
+  },
   assigned: [
     {
       type: mongoose.ObjectId,
@@ -46,7 +50,8 @@ userSchema.statics.signup = async function (
   email,
   password,
   name,
-  role
+  role,
+  department
 ) {
   // validation
   if (!email || !password) {
@@ -73,6 +78,7 @@ userSchema.statics.signup = async function (
     password: hash,
     name,
     role,
+    department,
     assigned: [],
     created: [],
   });
@@ -108,8 +114,22 @@ userSchema.statics.findRole = async function (data) {
   return user;
 };
 
+userSchema.statics.findDepartment = async function (data) {
+  const user = this.findById(data, { department: 1 });
+  return user;
+};
+
 userSchema.statics.countUnassigned = async function () {
   const count = this.countDocuments({ assigned: [], role: "employee" });
+  return count;
+};
+
+userSchema.statics.McountUnassigned = async function (data) {
+  const count = this.countDocuments({
+    assigned: [],
+    role: "employee",
+    department: data.department,
+  });
   return count;
 };
 
@@ -146,6 +166,16 @@ userSchema.statics.unAssignTask = async function (task_id, user_id) {
     console.log(
       `User with _id: ${user_id} was unassinged from task with _id: ${task_id}`
     );
+  });
+};
+
+userSchema.statics.unAssignCompleted = async function (task_id) {
+  this.updateMany(
+    { role: "employee" },
+    { $pull: { assigned: task_id } },
+    { returnDocument: "after" }
+  ).then((document) => {
+    console.log(`User was unassinged from task with _id: ${task_id}`);
   });
 };
 

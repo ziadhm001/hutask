@@ -81,8 +81,8 @@ export function SidebarResponsive(props) {
           as={IoMenuOutline}
           color={menuColor}
           my="auto"
-          w="20px"
-          h="20px"
+          w="15px"
+          h="15px"
           me="px"
           _hover={{ cursor: "pointer" }}
         />

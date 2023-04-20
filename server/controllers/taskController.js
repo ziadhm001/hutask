@@ -13,6 +13,15 @@ const getTasks = (req, res, next) => {
     .catch((err) => next(err));
 };
 
+const getMTasks = (req, res, next) => {
+  taskCrud
+    .getAllCondition({ department: req.body.department })
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((err) => next(err));
+};
+
 const getTaskById = (req, res, next) => {
   taskCrud
     .getById(req.params.id)
@@ -25,6 +34,15 @@ const getTaskById = (req, res, next) => {
 const getTaskCount = async (req, res, next) => {
   try {
     const count = await Task.count();
+    res.status(200).json({ count });
+  } catch (err) {
+    next(err);
+  }
+};
+
+const getMTaskCount = async (req, res, next) => {
+  try {
+    const count = await Task.Mcount({ department: req.body.department });
     res.status(200).json({ count });
   } catch (err) {
     next(err);
@@ -49,9 +67,29 @@ const getCompletedCount = async (req, res, next) => {
   }
 };
 
+const getMCompletedCount = async (req, res, next) => {
+  try {
+    const count = await Task.McountCompleted({
+      department: req.body.department,
+    });
+    res.status(200).json({ count });
+  } catch (err) {
+    next(err);
+  }
+};
+
 const getOngoingCount = async (req, res, next) => {
   try {
     const count = await Task.countOngoing();
+    res.status(200).json({ count });
+  } catch (err) {
+    next(err);
+  }
+};
+
+const getMOngoingCount = async (req, res, next) => {
+  try {
+    const count = await Task.McountOngoing({ department: req.body.department });
     res.status(200).json({ count });
   } catch (err) {
     next(err);
@@ -90,8 +128,10 @@ const registerTask = (req, res, next) => {
 
 const updateTask = (req, res, next) => {
   let data = req.body;
-  if (req.body.progress === 100) data.status = "تم الانتهاء";
-  else if (req.body.progress && req.body.progress > 0)
+  if (req.body.progress === 100) {
+    data.status = "تم الانتهاء";
+    User.unAssignCompleted(req.params.id);
+  } else if (req.body.progress && req.body.progress > 0)
     data.status = "جاري التنفيذ";
   taskCrud
     .update(req.params.id, data)
@@ -122,4 +162,8 @@ export {
   registerTask,
   updateTask,
   deleteTask,
+  getMCompletedCount,
+  getMOngoingCount,
+  getMTaskCount,
+  getMTasks,
 };

@@ -8,6 +8,12 @@ import {
   getUnassignedCount,
   getUserRole,
   getCreated,
+  getUsers,
+  getUnassignedUsers,
+  getMUnassignedUsers,
+  getUserDepartment,
+  getMUsers,
+  getMUnassignedCount,
 } from "../controllers/userController.js";
 
 import { requireAuth } from "../middlewares/requireAuth.js";
@@ -15,6 +21,14 @@ import { requireAuth } from "../middlewares/requireAuth.js";
 const router = express.Router();
 
 router.post("/register", createUser);
+
+router.get("/", getUsers);
+
+router.get("/unassigned", getUnassignedUsers);
+
+router.post("/unassignedmanager", getMUnassignedUsers);
+
+router.post("/manager", getMUsers);
 
 router.post("/login", validateUser);
 
@@ -30,6 +44,10 @@ router.get("/countCreatedTasks", getCreated);
 
 router.get("/user/role/:id", getUserRole);
 
+router.get("/user/department/:id", getUserDepartment);
+
 router.get("/countUnassigned", getUnassignedCount);
+
+router.post("/mcountUnassigned", getMUnassignedCount);
 
 export default router;

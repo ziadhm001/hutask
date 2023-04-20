@@ -62,7 +62,9 @@ export default function UserReports() {
   }, [completedCount, ongoingCount, taskCount]);
 
   useEffect(() => {
+    let controller = new AbortController();
     const getOngoingCount = async () => {
+      try{
       let response = await TaskApi.GetCountOngoing().catch(error => {
         if(error.response.status === 401)
         {
@@ -72,43 +74,90 @@ export default function UserReports() {
           history.push("/auth/sign-in");
         }
       })
-
       setOngoingCount(response.data.count);
+      controller = null;
+    }
+    catch(error){
+      console.log(error);
+    }
     };
     getOngoingCount();
+
+    return () => controller?.abort();
   }, [dispatch, history, ongoingCount]);
 
   useEffect(() => {
+    let controller = new AbortController();
+
     const getUnassignedCount = async () => {
+      try{
       let response = await UserApi.GetUnassignedCount();
       setUnassignedCount(response.data.count);
+      controller = null;
+      }
+      catch(error){
+        console.log(error);
+      }
     };
     getUnassignedCount();
+    return () => controller?.abort();
   }, [unassignedCount]);
 
   useEffect(() => {
+    let controller = new AbortController();
+
     const getTasks = async () => {
+      try{
       let response = await TaskApi.Get({});
       await response.data.map((task) => task.creator = task.creator.name)
       setTableDataComplex(response.data)
+      controller = null;
+      }
+      catch(error)
+      {
+        console.log(error);
+      }
     }
     getTasks();
+    return () => controller?.abort();
+
   },[])
 
   useEffect(() => {
+    let controller = new AbortController();
+  
     const getTotalTasks = async () => {
+      try{
       let response = await TaskApi.GetCount({});
       setTaskCount(response.data.count)
+      controller = null;
+      }
+      catch(error)
+      {
+        console.log(error);
+      }
     }
     getTotalTasks();
+    return () => controller?.abort();
+
   },[])
 
   useEffect(() => {
+    let controller = new AbortController();
+
     const getCompletedCount = async () => {
+      try{
       let response = await TaskApi.GetCountCompleted({});
       setCompletedCount(response.data.count)
+      controller = null;
+      }
+      catch(error){
+        console.log(error);
+      }
     }
     getCompletedCount();
+    return () => controller?.abort();
+
   },[completedCount, taskCount])
 
   return (
@@ -118,8 +167,10 @@ export default function UserReports() {
         gap='40px'
         mb='40px'>
         <MiniStatistics
+          id="111"
           startContent={
             <IconBox
+              onClick={() => history.push('/admin/users/unassigned')}
               w='56px'
               h='56px'
               bg={boxBg}

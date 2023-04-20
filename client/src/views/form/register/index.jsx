@@ -7,7 +7,7 @@ import {
   Flex,
   FormControl,
   FormLabel,
-  Heading,
+  SimpleGrid,
   Icon,
   Select,
   InputRightElement,
@@ -18,11 +18,7 @@ import {
 // Custom components
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import DefaultAuth from "layouts/auth/Default";
 // Assets
-import illustration from "assets/img/auth/auth.png";
-import { MdOutlineRemoveRedEye,MdArrowForward } from "react-icons/md";
-import { RiEyeCloseLine } from "react-icons/ri";
 import { useAuthContext } from "hooks/useAuthContext";
 
 function SignIn() {
@@ -41,7 +37,6 @@ function SignIn() {
   const othersOptions = ["اخرى"];*/
   const [buttonText, setButtonText] = useState("تسجيل الشكوى");
   const [error, setError] = useState(undefined);
-  // Chakra color mode
   const textColor = useColorModeValue("navy.700", "white");
   const selectColor = useColorModeValue("white","navy.700");
 
@@ -85,7 +80,7 @@ function SignIn() {
         setButtonText("تسجيل الشكوى");
         return setError(response.data.msg);
       }
-      return history.push("/");
+      return history.push("/redirect/createdtask")
     } catch (err) {
       console.log(err);
       setButtonText("تسجيل الشكوى");
@@ -96,49 +91,11 @@ function SignIn() {
     }
   };
   return (
-    <DefaultAuth illustrationBackground={illustration} image={illustration}>
-
-      <Flex
-        maxW={{ base: "100%", md: "max-content" }}
-        w='100%'
-        mx={{ base: "auto", lg: "0px" }}
-        me='auto'
-        h='100%'
-        alignItems='start'
-        justifyContent='center'
-        mb={{ base: "30px", md: "60px" }}
-        px={{ base: "25px", md: "0px" }}
-        mt={{ base: "42px", md: "3vh" }}
-        flexDirection='column'>
-          
-        <IconButton
-          variant='outline'
-          colorScheme='teal'
-          aria-label='Call Sage'
-          fontSize='20px'
-          icon={<MdArrowForward />}
-          onClick={() => history.goBack()}
-        /> 
-
-        <Box me='auto'>
-          <Heading color={textColor} fontSize='36px' mb='10px' marginLeft='100px'>
-            تسجيل بلاغ جديد 
-          </Heading>
-        </Box>
-        <Flex
-          zIndex='2'
-          direction='column'
-          w={{ base: "100%", md: "420px" }}
-          maxW='100%'
-          background='transparent'
-          borderRadius='15px'
-          mx={{ base: "auto", lg: "unset" }}
-          me='auto'
-          mb={{ base: "20px", md: "auto" }}>
+    <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
           <Flex
             zIndex='2'
             direction='column'
-            w={{ base: "100%", md: "420px" }}
+            w={{ base: "100%", md: "100%" }}
             maxW='100%'
             background='transparent'
             borderRadius='15px'
@@ -157,6 +114,8 @@ function SignIn() {
               {error}
             </h4>
             <FormControl >
+            <SimpleGrid columns={{ base: 1, md: 1, xl: 2}} gap='10px' mb='10px'>
+              <Box>
               <FormLabel 
                 justifyContent='left'
                 display='flex'
@@ -190,6 +149,8 @@ function SignIn() {
                 <option value='الصيانة'>الصيانة</option>
                 <option value='أخرى'>أخرى</option>
               </Select>
+              </Box>
+              <Box>
               <FormLabel
                 justifyContent='left'
                 display='flex'
@@ -215,6 +176,8 @@ function SignIn() {
                   setError(undefined);
                 }}
               ><option value='برنامج جديد'>برنامج جديد</option></Select>
+              </Box>
+              <Box>
               <FormLabel
                 justifyContent='left'
                 ms='4px'
@@ -239,7 +202,9 @@ function SignIn() {
                     setError(undefined);
                   }}
                 ><option value='تصميم برنامج'>تصميم برنامج</option></Select>
-                
+                </Box>
+                <FormLabel />
+                <Box>
                 <FormLabel
                   justifyContent='left'
                   display='flex'
@@ -267,30 +232,21 @@ function SignIn() {
                   setError(undefined);
                 }}
               />
-                <InputRightElement display='flex' alignItems='center' mt='4px'>
-                  <Icon
-                    color={textColorSecondary}
-                    _hover={{ cursor: "pointer" }}
-                    as={show ? RiEyeCloseLine : MdOutlineRemoveRedEye}
-                    onClick={handleClick}
-                  />
-                </InputRightElement>
+              </Box>
+              </SimpleGrid>
               <Button
                 fontSize='sm'
                 variant='brand'
                 fontWeight='500'
                 w='100%'
                 h='50'
-                mb='24px'
                 onClick={register}
               >
                 {buttonText}
               </Button>
             </FormControl>
           </Flex>
-        </Flex>
-      </Flex>
-    </DefaultAuth>
+      </Box>
   );
 }
 

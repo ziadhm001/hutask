@@ -12,6 +12,10 @@ import {
   deleteTask,
   registerTask,
   getTaskByAssigned,
+  getMTaskCount,
+  getMCompletedCount,
+  getMOngoingCount,
+  getMTasks,
 } from "../controllers/taskController.js";
 import { requireAuth } from "../middlewares/requireAuth.js";
 
@@ -21,13 +25,21 @@ router.use(requireAuth);
 
 router.get("/", getTasks);
 
+router.post("/manager", getMTasks);
+
 router.get("/count", getTaskCount);
+
+router.post("/mcount", getMTaskCount);
 
 router.get("/countByCreator", getTaskCountByCreator);
 
 router.get("/countCompleted", getCompletedCount);
 
+router.post("/mcountCompleted", getMCompletedCount);
+
 router.get("/countOngoing", getOngoingCount);
+
+router.post("/mcountOngoing", getMOngoingCount);
 
 router.get("/assigned/:id", getTaskByAssigned);
 

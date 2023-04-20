@@ -1,6 +1,7 @@
 export function generateCrudMethods(Model) {
   return {
     getAll: () => Model.find().populate("creator", "name"),
+    getAllCondition: (data) => Model.find(data).populate("creator", "name"),
     getById: (id) => Model.findById(id).populate("creator", "name"),
     getByCreator: (id) => Model.find({ creator: id }),
     getByAssigned: (id) =>

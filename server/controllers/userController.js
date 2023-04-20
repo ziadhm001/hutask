@@ -12,9 +12,16 @@ const createToken = (_id) => {
 
 const userCrud = generateCrudMethods(User);
 const createUser = async (req, res, next) => {
-  const { username, email, password, name, role } = req.body;
+  const { username, email, password, name, role, department } = req.body;
   try {
-    const user = await User.signup(username, email, password, name, role);
+    const user = await User.signup(
+      username,
+      email,
+      password,
+      name,
+      role,
+      department
+    );
     const token = createToken(user._id);
     res.status(201).json({ _id: user._id, token, name: user.name });
   } catch (err) {
@@ -43,6 +50,73 @@ const getUsersByRole = async (req, res, next) => {
   }
 };
 
+const getUsers = async (req, res, next) => {
+  try {
+    const users = await User.find({ role: "employee" }).select({
+      name: 1,
+      email: 1,
+      department: 1,
+      role: 1,
+      assigned: 1,
+    });
+    res.status(200).json({ users });
+  } catch (err) {
+    next(err);
+  }
+};
+
+const getMUsers = async (req, res, next) => {
+  try {
+    const users = await User.find({
+      department: req.body.department,
+      role: "employee",
+    }).select({
+      name: 1,
+      email: 1,
+      department: 1,
+      role: 1,
+      assigned: 1,
+    });
+    res.status(200).json({ users });
+  } catch (err) {
+    next(err);
+  }
+};
+
+const getUnassignedUsers = async (req, res, next) => {
+  try {
+    const users = await User.find({ assigned: [], role: "employee" }).select({
+      name: 1,
+      email: 1,
+      department: 1,
+      role: 1,
+      assigned: 1,
+    });
+    res.status(200).json({ users });
+  } catch (err) {
+    next(err);
+  }
+};
+
+const getMUnassignedUsers = async (req, res, next) => {
+  try {
+    const users = await User.find({
+      department: req.body.department,
+      role: "employee",
+      assigned: [],
+    }).select({
+      name: 1,
+      email: 1,
+      department: 1,
+      role: 1,
+      assigned: 1,
+    });
+    res.status(200).json({ users });
+  } catch (err) {
+    next(err);
+  }
+};
+
 const getCreated = async (req, res, next) => {
   try {
     const users = await User.getCreated();
@@ -62,6 +136,16 @@ const getUserRole = async (req, res, next) => {
   }
 };
 
+const getUserDepartment = async (req, res, next) => {
+  try {
+    const id = { _id: req.params.id };
+    const users = await User.findDepartment(id);
+    res.status(200).json({ users });
+  } catch (err) {
+    next(err);
+  }
+};
+
 const getUnassignedCount = async (req, res, next) => {
   try {
     const count = await User.countUnassigned();
@@ -71,11 +155,22 @@ const getUnassignedCount = async (req, res, next) => {
   }
 };
 
+const getMUnassignedCount = async (req, res, next) => {
+  try {
+    const count = await User.McountUnassigned({
+      department: req.body.department,
+    });
+    res.status(200).json({ count });
+  } catch (err) {
+    next(err);
+  }
+};
+
 const assignTask = async (req, res, next) => {
   const { task_id, user_id } = req.body;
   User.assignTask(task_id, user_id);
-  Task.assignUser(task_id, user_id);
-  res.status(201).json({ message: "Assigned" });
+  let response = await Task.assignUser(task_id, user_id);
+  res.status(201).json(response);
 };
 
 const unAssignTask = (req, res, next) => {
@@ -94,4 +189,10 @@ export {
   getUnassignedCount,
   assignTask,
   unAssignTask,
+  getUsers,
+  getUnassignedUsers,
+  getMUnassignedUsers,
+  getUserDepartment,
+  getMUsers,
+  getMUnassignedCount,
 };

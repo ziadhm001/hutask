@@ -44,7 +44,7 @@ export default function UserReports() {
   );
   const history = useHistory();
   const {user, dispatch} = useAuthContext()
-  const [taskCount, setTaskCount] = useState(-1);
+  const [taskCount, setTaskCount] = useState(0);
   const [completedCount, setCompletedCount] = useState(-1);
   const [ongoingCount, setOngoingCount] = useState(-1);
   const [unassignedCount, setUnassignedCount] = useState(-1);
@@ -72,12 +72,15 @@ export default function UserReports() {
   }, [department, user._id]);
 
   useEffect(() => {
-    setPieChartData([
-      (completedCount / taskCount),
-      (ongoingCount / taskCount),
-      (taskCount - completedCount - ongoingCount) / taskCount,
-    ]);
-  }, [completedCount, ongoingCount, taskCount]);
+    if(taskCount === 0)
+      setPieChartData([0,0,0])
+    else
+      setPieChartData([
+        (completedCount / taskCount),
+        (ongoingCount / taskCount),
+        (taskCount - completedCount - ongoingCount) / taskCount,
+      ]);
+    }, [completedCount, ongoingCount, taskCount]);
 
   useEffect(() => {
     let controller = new AbortController();
@@ -267,7 +270,7 @@ export default function UserReports() {
             </Text>
           </Flex>
           <Text fontSize="lg" color={textColor} fontWeight="700">
-            {(
+            {taskCount === 0 ? 0 : (
               ((taskCount - completedCount - ongoingCount) / taskCount) *
               100
             ).toFixed(2)}
@@ -288,7 +291,7 @@ export default function UserReports() {
             </Text>
           </Flex>
           <Text fontSize="lg" color={textColor} fontWeight="700">
-            {((ongoingCount / taskCount) * 100).toFixed(2)}%
+            {taskCount === 0 ? 0 : ((ongoingCount / taskCount) * 100).toFixed(2)}%
           </Text>
         </Flex>
         <VSeparator mx={{ base: "42px", xl: "42px", "2xl": "42px" }} />
@@ -305,7 +308,7 @@ export default function UserReports() {
             </Text>
           </Flex>
           <Text fontSize="lg" color={textColor} fontWeight="700">
-            {((completedCount / taskCount) * 100).toFixed(2)}%
+            {taskCount === 0 ? 0 :((completedCount / taskCount) * 100).toFixed(2)}%
           </Text>
         </Flex>
       </Card>

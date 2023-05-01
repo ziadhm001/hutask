@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom";
 import {
   Box,
   Button,
+  Center,
   Flex,
   FormControl,
   FormLabel,
@@ -81,21 +82,20 @@ function SignIn() {
     }
   };
   return (
-    <DefaultAuth illustrationBackground={illustration} image={illustration}>
+    <Center>
       <Flex
         maxW={{ base: "100%", md: "max-content" }}
         w='100%'
         mx={{ base: "auto", lg: "0px" }}
-        me='auto'
         h='100%'
-        alignItems='start'
-        justifyContent='left'
+        alignItems='center'
+        justifyContent='center'
         mb={{ base: "30px", md: "60px" }}
         px={{ base: "25px", md: "0px" }}
         mt={{ base: "40px", md: "14vh" }}
         flexDirection='column'>
         <Box me='auto'>
-          <Heading color={textColor} fontSize='36px' mb='10px' marginLeft='110px'>
+          <Heading color={textColor} fontSize='36px' mb='50px' marginLeft='110px'>
               تسجيل الدخول
             </Heading>
           </Box>
@@ -106,7 +106,6 @@ function SignIn() {
             maxW='100%'
             background='transparent'
             borderRadius='15px'
-            mx={{ base: "auto", lg: "unset" }}
             me='auto'
             mb={{ base: "20px", md: "auto" }}>
           
@@ -117,9 +116,8 @@ function SignIn() {
             maxW='100%'
             background='transparent'
             borderRadius='15px'
-            mx={{ base: "auto", lg: "unset" }}
             me='auto'
-            mb={{ base: "20px", md: "auto" }}>
+            mb={{ base: "30px", md: "auto" }}>
               <h4
                 style={{
                   fontSize: ".9em",
@@ -151,7 +149,7 @@ function SignIn() {
                     ms={{ base: "0px", md: "0px" }}
                     type='text'
                     placeholder='اسم المستخدم'
-                    mb='24px'
+                    mb='30px'
                     defaultValue={username}
                     fontWeight='500'
                     size='lg'
@@ -175,7 +173,7 @@ function SignIn() {
                       isRequired={true}
                       fontSize='sm'
                       placeholder='كلمة المرور'
-                      mb='24px'
+                      mb='50px'
                       size='lg'
                       defaultValue={password}
                       type={show ? "text" : "password"}
@@ -221,7 +219,7 @@ function SignIn() {
           </Flex>
         </Flex>
       </Flex>
-    </DefaultAuth>
+        </Center>
   );
 }
 

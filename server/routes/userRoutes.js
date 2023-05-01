@@ -1,53 +1,53 @@
-import express from "express";
+import express from "express"
 import {
-  validateUser,
-  createUser,
-  getUsersByRole,
-  assignTask,
-  unAssignTask,
-  getUnassignedCount,
-  getUserRole,
-  getCreated,
-  getUsers,
-  getUnassignedUsers,
-  getMUnassignedUsers,
-  getUserDepartment,
-  getMUsers,
-  getMUnassignedCount,
-} from "../controllers/userController.js";
+    validateUser,
+    createUser,
+    getUsersByRole,
+    assignTask,
+    unAssignTask,
+    getUnassignedCount,
+    getUserRole,
+    getCreated,
+    getUsers,
+    getUnassignedUsers,
+    getMUnassignedUsers,
+    getUserDepartment,
+    getMUsers,
+    getMUnassignedCount,
+} from "../controllers/userController.js"
 
-import { requireAuth } from "../middlewares/requireAuth.js";
+import { requireAuth } from "../middlewares/requireAuth.js"
 
-const router = express.Router();
+const router = express.Router()
 
-router.post("/register", createUser);
+router.post("/login", validateUser)
 
-router.get("/", getUsers);
+router.use(requireAuth)
 
-router.get("/unassigned", getUnassignedUsers);
+router.post("/register", createUser)
 
-router.post("/unassignedmanager", getMUnassignedUsers);
+router.get("/", getUsers)
 
-router.post("/manager", getMUsers);
+router.get("/unassigned", getUnassignedUsers)
 
-router.post("/login", validateUser);
+router.post("/unassignedmanager", getMUnassignedUsers)
 
-router.use(requireAuth);
+router.post("/manager", getMUsers)
 
-router.post("/assign", assignTask);
+router.post("/assign", assignTask)
 
-router.post("/unassign", unAssignTask);
+router.post("/unassign", unAssignTask)
 
-router.get("/role/:role", getUsersByRole);
+router.get("/role/:role", getUsersByRole)
 
-router.get("/countCreatedTasks", getCreated);
+router.get("/countCreatedTasks", getCreated)
 
-router.get("/user/role/:id", getUserRole);
+router.get("/user/role/:id", getUserRole)
 
-router.get("/user/department/:id", getUserDepartment);
+router.get("/user/department/:id", getUserDepartment)
 
-router.get("/countUnassigned", getUnassignedCount);
+router.get("/countUnassigned", getUnassignedCount)
 
-router.post("/mcountUnassigned", getMUnassignedCount);
+router.post("/mcountUnassigned", getMUnassignedCount)
 
-export default router;
+export default router

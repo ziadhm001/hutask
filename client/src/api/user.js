@@ -1,4 +1,5 @@
 import axios from "./index"
+import axiosR from "./indexRegister"
 class UserApi {
     static Register = (data) => {
         return axios.post(`users/register/`, data)

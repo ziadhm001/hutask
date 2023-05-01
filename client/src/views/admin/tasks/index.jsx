@@ -85,7 +85,7 @@ export default function Settings(props) {
       </Select>
       <SimpleGrid columns={{base: 1, md: 1, xl: tasks ? tasks.length <= 1 ? 1 : 2 : 1}} gap='10px' mb='20px'>
         {tasks ? tasks.length >= 1 ? tasks.map((task,index) => {
-          return <Task key={index} name={task.creator.name} status={task.status} date={task.date} department={task.department} service={task.service} element ={task.element} progress={task.progress} reason={task.reason} _id={task._id} employees={employees} assigned={task.assigned} setChange={setChange}/>}) : <Task key={0} name={"لا يوجد طلبات"} department={""} role={""} count={""}/>
+          return <Task key={index} name={task.creator.name} status={task.status} date={task.date} department={task.department} service={task.service} element ={task.element} progress={task.progress} reason={task.reason} _id={task._id} employees={employees} assigned={task.assigned} file={task.source} setChange={setChange}/>}) : <Task key={0} name={"لا يوجد طلبات"} department={""} role={""} count={""}/>
         : <Loading/> }
       </SimpleGrid>
     </Box>

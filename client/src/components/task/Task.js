@@ -25,7 +25,10 @@ import {
 } from "@chakra-ui/react"
 import TaskApi from "api/task"
 import UserApi from "api/user"
+import axios from "axios"
 import { useState, useEffect } from "react"
+import FileSaver from "file-saver"
+import { useAuthContext } from "hooks/useAuthContext"
 
 export default function Task(props) {
     const textColorPrimary = useColorModeValue("secondaryGray.900", "white")
@@ -47,7 +50,28 @@ export default function Task(props) {
         setStatus(response.data.status)
         props.setChange(new Date())
     }
+    const { user, dispatch } = useAuthContext()
 
+    const downloadFile = async () => {
+        axios({
+            url: `http://localhost:5000/api/tasks/file/${
+                props.file.split("/public/")[1]
+            }`,
+            method: "GET",
+            responseType: "blob", // important
+            headers: { Authorization: `Bearer ${user.token}` },
+        }).then((response) => {
+            const url = window.URL.createObjectURL(new Blob([response.data]))
+            const link = document.createElement("a")
+            link.href = url
+            link.setAttribute(
+                "download",
+                `${props.name}.${props.file.split(".")[1]}`
+            )
+            document.body.appendChild(link)
+            link.click()
+        })
+    }
     useEffect(() => {
         setStatus(props.status)
         setSliderValue(props.progress)
@@ -321,6 +345,7 @@ export default function Task(props) {
                                                     </FormLabel>
                                                     <Textarea
                                                         readOnly
+                                                        mb={3}
                                                         value={props.reason}
                                                         bg={formColor}
                                                         color={textColorPrimary}
@@ -337,8 +362,19 @@ export default function Task(props) {
                                                         placeholder="message"
                                                     />
                                                 </FormControl>
+                                                {props.file && (
+                                                    <Button
+                                                        fontSize="larger"
+                                                        fontWeight="bold"
+                                                        color={textColorPrimary}
+                                                        onClick={downloadFile}
+                                                    >
+                                                        تحميل الملف المرفق
+                                                    </Button>
+                                                )}
                                                 <FormControl id="name">
                                                     <FormLabel
+                                                        mt={3}
                                                         fontSize="larger"
                                                         fontWeight="bold"
                                                         color={textColorPrimary}

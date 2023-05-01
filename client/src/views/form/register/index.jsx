@@ -8,33 +8,38 @@ import {
   FormControl,
   FormLabel,
   SimpleGrid,
-  Icon,
+  Input,
   Select,
-  InputRightElement,
   Text,
   useColorModeValue,
-  IconButton
 } from "@chakra-ui/react";
 // Custom components
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 // Assets
 import { useAuthContext } from "hooks/useAuthContext";
+import axios from "axios";
 
 function SignIn() {
+  const [file, setFile] = useState("")
   const [department, setDepartment] = useState("");
   const [service, setService] = useState("");
-  const [element, setElement] = useState("");
+  const [element, setElement] = useState("لا يوجد");
   const [reason, setReason] = useState("");
   const { user } = useAuthContext()
+  let token = user.token
   const history = useHistory();
- /* const programmingOptions = ["برنامج جديد","تطوير برنامج","دعم فني لبرنامج"];
+  const programmingOptions = ["برنامج جديد","تطوير برنامج","دعم فني لبرنامج"];
   const eGateOptions = ["موقع جديد","تطوير موقع","دعم فني لموقع"];
   const eSupportOptions = ["الكارنيهات","أكواد الدفع","كتب الكترونية","عرض نتائج","القدرات","التظلمات","اخرى"];
   const networkOptions = ["نقاط الانترنت","خوادم","سويتشات","اخرى"];
   const tSupportOptions = ["الكنترولات","الايميلات","اخرى"];
   const maintainanceOptions = ["مشاكل هاردوير","مشاكل سوفتوير","تكهين","الطابعات","اخرى"];
-  const othersOptions = ["اخرى"];*/
+  const othersOptions = ["اخرى"];
+  const devOrSupportProg = ["برنامج الشهادة الثبوتية","برنامج عيادة الاسنان","برنامج الكنترول","نظام مرتبات العاملين","نظام مرتبات المؤقتين","نظام مرتبات الكادر الطبي","تظام مرتبات اعضاء هيئة التدريس","الدفع الالكتروني"]
+  const devOrSupportSite = ["موقع الجامعة الرئيسي","موقع كلية الهندسة بحلوان","موقع كلية الهندسة بالمطرية"]
+  const [serviceList, setServiceList] = useState(null)
+  const [elementList, setElementList] = useState(null)
   const [buttonText, setButtonText] = useState("تسجيل الشكوى");
   const [error, setError] = useState(undefined);
   const textColor = useColorModeValue("navy.700", "white");
@@ -45,7 +50,7 @@ function SignIn() {
 
   const [show, setShow] = React.useState(false);
   const handleClick = () => setShow(!show);
-  const register = async (event) => {
+  const handleRegister = async (event) => {
     if (event) {
       event.preventDefault();
     }
@@ -61,34 +66,32 @@ function SignIn() {
     if (reason === "") {
       return setError("من فضلك ادخل سبب البلاغ");
     }
-     try {
       setButtonText("جاري ارسال الشكوى");
+      const formData = new FormData()
+      formData.append('source', file)
+      formData.append('department',department)
+      formData.append('service',service)
+      formData.append('element',element)
+      formData.append('reason',reason)
+      formData.append('assigned',null)
+      formData.append('date', Date.now())
+      formData.append('status', "لم تبدأ بعد")
+      formData.append('creator', user._id)
 
       // Register user here
-      let response = await TaskApi.Register({
-        department,
-        service,
-        element,
-        reason,
-        progress: 0,
-        assigned: null,
-        date: Date.now(),
-        status: 'لم تبدأ بعد',
-        creator: user._id,
-      });
-      if (response.data.progress !== 0) {
-        setButtonText("تسجيل الشكوى");
-        return setError(response.data.msg);
-      }
-      return history.push("/redirect/createdtask")
-    } catch (err) {
+      //let response = await TaskApi.Register({
+      //  formData
+      //});
+      await axios.post('http://localhost:5000/api/tasks/register',formData,{headers: {"Content-Type": "multipart/form-data", Authorization: `Bearer ${token}`}})
+      .then((data)=>{history.push("/redirect/createdtask")})
+      .catch ((err) => {
       console.log(err);
       setButtonText("تسجيل الشكوى");
       if (err.response) {
-        return setError(err.response.data.msg);
+        return setError(err.response.data.error);
       }
       return setError("حدث خطأ");
-    }
+    })
   };
   return (
     <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
@@ -113,7 +116,8 @@ function SignIn() {
             >
               {error}
             </h4>
-            <FormControl >
+            <form onSubmit={handleRegister} encType="multipart/form-data">
+            <FormControl>
             <SimpleGrid columns={{ base: 1, md: 1, xl: 2}} gap='10px' mb='10px'>
               <Box>
               <FormLabel 
@@ -137,6 +141,16 @@ function SignIn() {
                 fontWeight='500'
                 size='lg'
                 onChange={(event) => {
+                  switch(event.target.value){
+                    case "البرمجة": setServiceList(programmingOptions); break;
+                    case "البوابة الالكترونية": setServiceList(eGateOptions); break;
+                    case "الدعم الالكتروني": setServiceList(eSupportOptions); break;
+                    case "الشبكات": setServiceList(networkOptions); break;
+                    case "الدعم الفني": setServiceList(tSupportOptions); break;
+                    case "الصيانة": setServiceList(maintainanceOptions); break;
+                    case "اخرى": setServiceList(othersOptions); break;
+                    default: break;
+                  }
                   setDepartment(event.target.value);
                   setError(undefined);
                 }}
@@ -172,10 +186,17 @@ function SignIn() {
                 fontWeight='500'
                 size='lg'
                 onChange={(event) => {
+                  switch(event.target.value){
+                    case "تطوير برنامج": setElementList(devOrSupportProg); break;
+                    case "دعم فني لبرنامج": setElementList(devOrSupportProg); break;
+                    case "تطوير موقع": setElementList(devOrSupportSite); break;
+                    case "دعم فني لموقع": setElementList(devOrSupportSite); break;
+                    default: setElementList(null); setElement("لا يوجد"); break;
+                  }
                   setService(event.target.value);
                   setError(undefined);
                 }}
-              ><option value='برنامج جديد'>برنامج جديد</option></Select>
+              >{serviceList && serviceList.map((option,i) => {return <option key={i} value={option}>{option}</option>})}</Select>
               </Box>
               <Box>
               <FormLabel
@@ -186,12 +207,10 @@ function SignIn() {
                 color={textColor}
                 display='flex'>
                 عناصر الخدمات<Text color={brandStars}>*</Text>
-              </FormLabel>
-              
-              
+              </FormLabel>  
                 <Select
                   textAlign='left'
-                  isRequired={true}
+                  isRequired={elementList ? true : false}
                   fontSize='sm'
                   placeholder='اختر العنصر'
                   mb='24px'
@@ -201,10 +220,32 @@ function SignIn() {
                     setElement(event.target.value);
                     setError(undefined);
                   }}
-                ><option value='تصميم برنامج'>تصميم برنامج</option></Select>
-                </Box>
-                <FormLabel />
-                <Box>
+              >{elementList && elementList.map((option,i) => {return <option key={i} value={option}>{option}</option>})}</Select>
+              </Box>
+              <Box>
+                <FormLabel
+                  justifyContent='left'
+                  ms='4px'
+                  fontSize='sm'
+                  fontWeight='500'
+                  color={textColor}
+                  display='flex'>
+                  ارفق ملف
+                </FormLabel>
+                <Input
+                type="file"
+                onChange={(event) => {
+                  setFile(event.target.files[0])
+                  setError(undefined);
+                }}
+                height={"50px"}
+                justifyContent={"center"}
+                padding={"10px"}
+                required={false}
+                >
+                </Input>                
+              </Box>
+              <Box>
                 <FormLabel
                   justifyContent='left'
                   display='flex'
@@ -235,16 +276,17 @@ function SignIn() {
               </Box>
               </SimpleGrid>
               <Button
+                type="submit"
                 fontSize='sm'
                 variant='brand'
                 fontWeight='500'
                 w='100%'
                 h='50'
-                onClick={register}
               >
                 {buttonText}
               </Button>
             </FormControl>
+            </form>
           </Flex>
       </Box>
   );

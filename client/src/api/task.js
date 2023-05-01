@@ -1,55 +1,63 @@
-import axios from "./index";
+import axios from "./index"
+import axiosR from "./indexRegister"
+
 class TaskApi {
-  static Get = () => {
-    return axios.get(`tasks/`);
-  };
+    static Get = () => {
+        return axios.get(`tasks/`)
+    }
 
-  static GetTask = (data) => {
-    return axios.get(`tasks/task/${data._id}`);
-  };
+    static GetFile = (data) => {
+        return axios.get(`tasks/file/${data.name}`)
+    }
 
-  static GetCount = () => {
-    return axios.get(`tasks/count/`);
-  };
+    static GetTask = (data) => {
+        return axios.get(`tasks/task/${data._id}`)
+    }
 
-  static UpdateTask = (_id, data) => {
-    return axios.put(`tasks/task/${_id}`, data);
-  };
+    static GetCount = () => {
+        return axios.get(`tasks/count/`)
+    }
 
-  static GetCountCompleted = () => {
-    return axios.get(`tasks/countCompleted/`);
-  };
+    static UpdateTask = (_id, data) => {
+        return axios.put(`tasks/task/${_id}`, data)
+    }
 
-  static GetAssignedTasks = (data) => {
-    return axios.get(`tasks/assigned/${data._id}`);
-  };
+    static GetCountCompleted = () => {
+        return axios.get(`tasks/countCompleted/`)
+    }
 
-  static GetCountOngoing = () => {
-    return axios.get(`tasks/countOngoing/`);
-  };
+    static GetAssignedTasks = (data) => {
+        return axios.get(`tasks/assigned/${data._id}`)
+    }
 
-  static GetManager = (data) => {
-    return axios.post(`tasks/manager`, data);
-  };
+    static GetCountOngoing = () => {
+        return axios.get(`tasks/countOngoing/`)
+    }
 
-  static GetMCountOngoing = (data) => {
-    return axios.post(`tasks/mcountOngoing/`, data);
-  };
+    static GetManager = (data) => {
+        return axios.post(`tasks/manager`, data)
+    }
 
-  static GetMCount = (data) => {
-    return axios.post(`tasks/mcount/`, data);
-  };
+    static GetMCountOngoing = (data) => {
+        return axios.post(`tasks/mcountOngoing/`, data)
+    }
 
-  static GetMCountCompleted = (data) => {
-    return axios.post(`tasks/mcountCompleted/`, data);
-  };
+    static GetMCount = (data) => {
+        return axios.post(`tasks/mcount/`, data)
+    }
 
-  static GetByCreator = (data) => {
-    return axios.get(`tasks/creator/${data._id}`, data);
-  };
-  static Register = (data) => {
-    return axios.post(`tasks/register`, data);
-  };
+    static GetMCountCompleted = (data) => {
+        return axios.post(`tasks/mcountCompleted/`, data)
+    }
+
+    static GetByCreator = (data) => {
+        return axios.get(`tasks/creator/${data._id}`, data)
+    }
+    static Register = (data) => {
+        return axiosR.post(`tasks/register`, data, {
+            headers: { "Content-Type": "multipart/form-data" },
+        })
+    }
 }
 
-export default TaskApi;
+export default TaskApi
